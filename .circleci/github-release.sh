@@ -63,8 +63,8 @@ Built for Amazon Linux 2 by Pinnacle 21
 
 EOS
 
-# CentOS 7
-for i in *.el7.amzn2.x86_64.rpm *.el7.amzn2.src.rpm; do
+# Amazon Linux 2
+for i in *.amzn2.x86_64.rpm *.amzn2.src.rpm; do
   print_rpm_markdown $i >> description.md
   upload_rpm $i
 done
