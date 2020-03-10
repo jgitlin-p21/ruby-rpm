@@ -41,8 +41,7 @@ jobs:
         description: Docker image for building RPM
         type: enum
         enum:
-          - "feedforce/ruby-rpm:centos7"
-          - "feedforce/ruby-rpm:centos6"
+          - "p21jgitlin/ruby-rpm:amzn2"
       version:
         description: Ruby version (e.g. 2.5)
         type: enum
@@ -73,10 +72,7 @@ jobs:
     parameters:
       image:
         description: Docker image for testing built RPM
-        type: enum
-        enum:
-          - "centos:7"
-          - "centos:6"
+        type: string
       version:
         description: Ruby version (e.g. 2.5)
         type: enum
@@ -97,7 +93,7 @@ jobs:
       - run:
           name: "Run Ruby << parameters.version >>"
           command: |
-            ruby -v -e 'puts File.read("/etc/centos-release")'
+            ruby -v -e 'puts File.read("/etc/os-release")'
       - run:
           name: "Uninstall Ruby RPM << parameters.version >>"
           command: yum remove -y ruby
@@ -142,19 +138,9 @@ workflows:
   version: 2
   default:
     jobs:
-      # Ruby 2.3
       - build:
-          name: ruby-2.3-centos6-build
-          image: "feedforce/ruby-rpm:centos6"
-          version: "2.3"
-          filters:
-            branches:
-              only:
-                - master
-                - /ruby-2\.3\..+/
-      - build:
-          name: ruby-2.3-centos7-build
-          image: "feedforce/ruby-rpm:centos7"
+          name: ruby-2.3-amzn2-build
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.3"
           filters:
             branches:
@@ -162,40 +148,24 @@ workflows:
                 - master
                 - /ruby-2\.3\..+/
       - test:
-          name: ruby-2.3-centos6-test
-          image: centos:6
+          name: ruby-2.3-amzn2-test
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.3"
           requires:
-            - ruby-2.3-centos6-build
-      - test:
-          name: ruby-2.3-centos7-test
-          image: centos:7
-          version: "2.3"
-          requires:
-            - ruby-2.3-centos7-build
+            - ruby-2.3-amzn2-build
       - deploy:
           name: ruby-2.3-deploy
           version: "2.3"
           requires:
-            - ruby-2.3-centos7-test
-            - ruby-2.3-centos6-test
+            - ruby-2.3-amzn2-test
           filters:
               branches:
                 only:
                   - master
       # Ruby 2.4
       - build:
-          name: ruby-2.4-centos6-build
-          image: "feedforce/ruby-rpm:centos6"
-          version: "2.4"
-          filters:
-            branches:
-              only:
-                - master
-                - /ruby-2\.4\..+/
-      - build:
-          name: ruby-2.4-centos7-build
-          image: "feedforce/ruby-rpm:centos7"
+          name: ruby-2.4-amzn2-build
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.4"
           filters:
             branches:
@@ -203,40 +173,24 @@ workflows:
                 - master
                 - /ruby-2\.4\..+/
       - test:
-          name: ruby-2.4-centos6-test
-          image: centos:6
+          name: ruby-2.4-amzn2-test
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.4"
           requires:
-            - ruby-2.4-centos6-build
-      - test:
-          name: ruby-2.4-centos7-test
-          image: centos:7
-          version: "2.4"
-          requires:
-            - ruby-2.4-centos7-build
+            - ruby-2.4-amzn2-build
       - deploy:
           name: ruby-2.4-deploy
           version: "2.4"
           requires:
-            - ruby-2.4-centos7-test
-            - ruby-2.4-centos6-test
+            - ruby-2.4-amzn2-test
           filters:
               branches:
                 only:
                   - master
       # Ruby 2.5
       - build:
-          name: ruby-2.5-centos6-build
-          image: "feedforce/ruby-rpm:centos6"
-          version: "2.5"
-          filters:
-            branches:
-              only:
-                - master
-                - /ruby-2\.5\..+/
-      - build:
-          name: ruby-2.5-centos7-build
-          image: "feedforce/ruby-rpm:centos7"
+          name: ruby-2.5-amzn2-build
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.5"
           filters:
             branches:
@@ -244,40 +198,24 @@ workflows:
                 - master
                 - /ruby-2\.5\..+/
       - test:
-          name: ruby-2.5-centos6-test
-          image: centos:6
+          name: ruby-2.5-amzn2-test
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.5"
           requires:
-            - ruby-2.5-centos6-build
-      - test:
-          name: ruby-2.5-centos7-test
-          image: centos:7
-          version: "2.5"
-          requires:
-            - ruby-2.5-centos7-build
+            - ruby-2.5-amzn2-build
       - deploy:
           name: ruby-2.5-deploy
           version: "2.5"
           requires:
-            - ruby-2.5-centos7-test
-            - ruby-2.5-centos6-test
+            - ruby-2.5-amzn2-test
           filters:
             branches:
               only:
                 - master
       # Ruby 2.6
       - build:
-          name: ruby-2.6-centos6-build
-          image: "feedforce/ruby-rpm:centos6"
-          version: "2.6"
-          filters:
-            branches:
-              only:
-                - master
-                - /ruby-2\.6\..+/
-      - build:
-          name: ruby-2.6-centos7-build
-          image: "feedforce/ruby-rpm:centos7"
+          name: ruby-2.6-amzn2-build
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.6"
           filters:
             branches:
@@ -285,40 +223,24 @@ workflows:
                 - master
                 - /ruby-2\.6\..+/
       - test:
-          name: ruby-2.6-centos6-test
-          image: centos:6
+          name: ruby-2.6-amzn2-test
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.6"
           requires:
-            - ruby-2.6-centos6-build
-      - test:
-          name: ruby-2.6-centos7-test
-          image: centos:7
-          version: "2.6"
-          requires:
-            - ruby-2.6-centos7-build
+            - ruby-2.6-amzn2-build
       - deploy:
           name: ruby-2.6-deploy
           version: "2.6"
           requires:
-            - ruby-2.6-centos7-test
-            - ruby-2.6-centos6-test
+            - ruby-2.6-amzn2-test
           filters:
             branches:
               only:
                 - master
       # Ruby 2.7
       - build:
-          name: ruby-2.7-centos6-build
-          image: "feedforce/ruby-rpm:centos6"
-          version: "2.7"
-          filters:
-            branches:
-              only:
-                - master
-                - /ruby-2\.7\..+/
-      - build:
-          name: ruby-2.7-centos7-build
-          image: "feedforce/ruby-rpm:centos7"
+          name: ruby-2.7-amzn2-build
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.7"
           filters:
             branches:
@@ -326,35 +248,17 @@ workflows:
                 - master
                 - /ruby-2\.7\..+/
       - test:
-          name: ruby-2.7-centos6-test
-          image: centos:6
+          name: ruby-2.7-amzn2-test
+          image: "p21jgitlin/ruby-rpm:amzn2"
           version: "2.7"
           requires:
-            - ruby-2.7-centos6-build
-      - test:
-          name: ruby-2.7-centos7-test
-          image: centos:7
-          version: "2.7"
-          requires:
-            - ruby-2.7-centos7-build
+            - ruby-2.7-amzn2-build
       - deploy:
           name: ruby-2.7-deploy
           version: "2.7"
           requires:
-            - ruby-2.7-centos7-test
-            - ruby-2.7-centos6-test
+            - ruby-2.7-amzn2-test
           filters:
             branches:
               only:
                 - master
-
-  continuous_update:
-    triggers:
-      - schedule:
-          cron: "0 * * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - update

@@ -59,26 +59,12 @@ upload_rpm() {
 }
 
 cat <<EOS > description.md
-Use at your own risk!
-
-Build on CentOS 7
+Built for Amazon Linux 2 by Pinnacle 21
 
 EOS
 
 # CentOS 7
-for i in *.el7.centos.x86_64.rpm *.el7.centos.src.rpm; do
-  print_rpm_markdown $i >> description.md
-  upload_rpm $i
-done
-
-cat <<EOS >> description.md
-
-Build on CentOS 6
-
-EOS
-
-# CentOS 6
-for i in *.el6.x86_64.rpm *.el6.src.rpm; do
+for i in *.el7.amzn2.x86_64.rpm *.el7.amzn2.src.rpm; do
   print_rpm_markdown $i >> description.md
   upload_rpm $i
 done
